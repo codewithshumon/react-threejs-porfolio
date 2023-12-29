@@ -67,6 +67,7 @@ export function Island({
 
       // calculate the change in the horizontal position of the mouse cursor or touch input,
       // relative to the viewport's width
+      //here delta is to get the diffrance
       const delta = (clientX - lastX.current) / viewport.width;
 
       // Update the island's rotation based on the mouse/touch movement
