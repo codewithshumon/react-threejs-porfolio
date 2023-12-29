@@ -1,54 +1,32 @@
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
-import Loader from '../components/Loader';
-import Island from '../models/Island';
-import Sky from '../models/Sky';
-import Bird from '../models/Bird';
-import Plane from '../models/Plane';
 
-// <div className="absolute top-28 right-0 left-0 z-10 flex items-center justify-center">
-//   PopUp
-// </div>
+import Loader from '../components/Loader';
+import { Island } from '../models/Island';
 
 const Home = () => {
   const [isRotating, setIsRotating] = useState(false);
 
   const adjustIslandForScreenSize = () => {
-    let screenScale = null;
-    let screenPosition = [0, -6.5, -43];
-    let rotetion = [0.1, 4.7, 0];
+    let screenScale, screenPosition;
 
     if (window.innerWidth < 768) {
-      screenScale: [0.9, 0.9, 0.9];
+      screenScale = [0.9, 0.9, 0.9];
+      screenPosition = [0, -6.5, -43.4];
     } else {
-      screenScale: [1, 1, 1];
+      screenScale = [1, 1, 1];
+      screenPosition = [0, -6.5, -43.4];
     }
 
-    return [screenScale, screenPosition, rotetion];
+    return [screenScale, screenPosition];
   };
 
-  const adjustPlaneForScreenSize = () => {
-    let planeScale, planePosition;
-
-    if (window.innerWidth < 768) {
-      planeScale: [1.5, 1.5, 1.5];
-      planePosition = [0, -1.5, -0];
-    } else {
-      planeScale: [3, 3, 3];
-      planePosition = [0, -4, -4];
-    }
-
-    return [planeScale, planePosition];
-  };
-
-  const [islandScale, islandPosition, islandRotetion] =
-    adjustIslandForScreenSize();
-  const [planeScale, planePosition] = adjustPlaneForScreenSize();
+  const [islandScale, islandPosition] = adjustIslandForScreenSize();
 
   return (
-    <section className=" w-full h-screen relative">
+    <section className="w-full h-screen relative">
       <Canvas
-        className={`w-full h-screen ${
+        className={`w-full h-screen bg-transparent ${
           isRotating ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         camera={{ near: 0.1, far: 1000 }}
@@ -56,26 +34,25 @@ const Home = () => {
         <Suspense fallback={<Loader />}>
           <directionalLight position={[1, 1, 1]} intensity={2} />
           <ambientLight intensity={0.5} />
+          <pointLight position={[10, 5, 10]} intensity={2} />
+          <spotLight
+            position={[0, 50, 10]}
+            angle={0.15}
+            penumbra={1}
+            intensity={2}
+          />
           <hemisphereLight
             skyColor="#b1e1ff"
             groundColor="#000000"
             intensity={1}
           />
 
-          <Bird />
-          <Sky />
           <Island
-            position={islandPosition}
-            scale={islandScale}
-            rotetion={islandRotetion}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
-          />
-          <Plane
-            isRotating={isRotating}
-            planeScale={planeScale}
-            planePosition={planePosition}
-            rotation={[0, 20, 0]}
+            position={islandPosition}
+            rotation={[0.1, 4.7077, 0]}
+            scale={islandScale}
           />
         </Suspense>
       </Canvas>
