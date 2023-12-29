@@ -7,17 +7,77 @@ Source: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be77
 Title: Fox's islands
 */
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { a } from '@react-spring/three';
 
 import islanScene from '../assets/3d/island.glb';
+import { useThree } from '@react-three/fiber';
 
-const Island = (props) => {
-  const islandRef = useRef();
+const Island = ({ isRotating, setIsRotating, ...props }) => {
+  const { gl, viewport } = useThree;
   const { nodes, materials } = useGLTF(islanScene);
+
+  const islandRef = useRef();
+  const lastX = useRef(0);
+  let rotationSpeed = useRef(0);
+  let dampingFactor = 0.95;
+
+  const handlePointerDown = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsRotating(true);
+
+    //when pointer down need to figure out if it's a touch e by mobile
+    //or mouse e by desktop/loptop
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+
+    lastX.current = clientX;
+  };
+
+  const handlePointerUp = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsRotating(false);
+
+    //when pointer down need to figure out if it's a touch e by mobile
+    //or mouse e by desktop/loptop
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+
+    const delta = (clientX - lastX.current) / viewport.width;
+
+    //updating island rotating base on the mouse
+    islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+
+    lastX.current = clientX;
+
+    rotationSpeed = delta * 0.01 * Math.PI;
+  };
+
+  const handlePointerMove = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsRotating(true);
+
+    if (isRotating) {
+      handlePointerUp(e);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('pointermove', handlePointerMove);
+
+    return () => {
+      document.addEventListener('pointerdown', handlePointerDown);
+      document.addEventListener('pointerup', handlePointerUp);
+      document.addEventListener('pointermove', handlePointerMove);
+    };
+  }, [gl, handlePointerDown, handlePointerUp, handlePointerMove]);
   return (
-    <a.group {...props} ref={islandRef}>
+    // {Island 3D model from: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be7785907}
+    <a.group ref={islandRef} {...props}>
       <mesh
         geometry={nodes.polySurface944_tree_body_0.geometry}
         material={materials.PaletteMaterial001}
