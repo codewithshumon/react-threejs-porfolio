@@ -1,27 +1,27 @@
 import {
   VerticalTimeline,
   VerticalTimelineElement,
-} from 'react-vertical-timeline-component';
+} from "react-vertical-timeline-component";
 
-import { experiences, skills } from '../constants';
-import CTA from '../components/CTA';
+import { experiences, skills } from "../constants";
+import CTA from "../components/CTA";
 
-import 'react-vertical-timeline-component/style.min.css';
+import "react-vertical-timeline-component/style.min.css";
 
 const About = () => {
   return (
     <section className="max-container">
       <h1 className="head-text">
-        Hello, I’m{' '}
+        Hello, I’m{" "}
         <span className="blue-gradient_text drop-shadow font-extrabold">
-          Shumon
+          Henry
         </span>
         👋
       </h1>
 
       <div className="mt-5 flex flex-col gap-3 text-slate-500">
         <p>
-          Software Engineer based in Bangladesh, specializing in technical
+          Software Engineer based in United State, specializing in technical
           education through hands-on learning and building applications.
         </p>
       </div>
@@ -71,10 +71,10 @@ const About = () => {
                   </div>
                 }
                 contentStyle={{
-                  borderBottom: '8px',
-                  borderStyle: 'solid',
+                  borderBottom: "8px",
+                  borderStyle: "solid",
                   borderBottomColor: experience.iconBg,
-                  boxShadow: 'none',
+                  boxShadow: "none",
                 }}
               >
                 <div>

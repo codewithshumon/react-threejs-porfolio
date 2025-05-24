@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { arrow } from '../assets/icons/index';
+import { Link } from "react-router-dom";
+import { arrow } from "../assets/icons/index";
 
 /* eslint-disable react/no-unescaped-entities */
 const InfoBox = ({ text, link, btnText }) => (
@@ -16,9 +16,9 @@ const renderContent = {
   1: (
     <h1 className="sm:text-xl sm:leading-snug text-center neo-brutalism-blue py-4 px-8 text-white mx-5">
       Hi, I am
-      <span className="font-semibold mx-2 text-white">Shumon</span>
+      <span className="font-semibold mx-2 text-white">Henry</span>
       👋
-      <br />A Software Engineer from Bangladesh
+      <br />A Software Engineer from United State
     </h1>
   ),
   2: (
